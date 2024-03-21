@@ -1,0 +1,53 @@
+{
+  "builders": [
+  {
+    "name": "ubuntu-18-venky",
+    "vm_name": "ubuntu-18-venky",
+    "type": "vmware-iso",
+    "guest_os_type": "ubuntu-64",
+    "tools_upload_flavor": "linux",
+    "headless": false,
+    "iso_url": "https://old-releases.ubuntu.com/releases/18.04.3/ubuntu-18.04.3-server-amd64.iso",
+    "iso_checksum": "7d8e0055d663bffa27c1718685085626cb59346e7626ba3d3f476322271f573e",
+    "ssh_username": "venkatesh",
+    "ssh_password": "venkypass",
+    "ssh_timeout": "15m20s",
+    "disk_type_id": "thin",
+    "disk_size": "15300",
+    "floppy_files": [
+      "{{template_dir}}/preseed.cfg"
+    ],
+    "skip_export": true,
+    "pause_before_connecting": "5s",
+    "vnc_disable_password": true,
+     "boot_command": [
+        "<enter><wait><f6><wait><esc><wait>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "<bs><bs><bs>",
+        "/install/vmlinuz",
+        " initrd=/install/initrd.gz",
+        " priority=critical",
+        " locale=en_US",
+        " file=/media/preseed.cfg",
+        "<enter>"
+     ],
+    "shutdown_command": "sudo shutdown -P now",
+    "remote_type": "esx5",
+    "remote_host": "{{user `esxi_host`}}",
+    "remote_datastore": "{{user `esxi_datastore`}}",
+    "remote_username": "{{user `esxi_username`}}",
+    "remote_password": "{{user `esxi_password`}}",
+    "keep_registered": true,
+    "vmx_data": {
+      "ethernet0.networkName": "vlan1"
+    }
+  }]
+}
+
